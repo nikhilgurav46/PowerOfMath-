@@ -1,0 +1,14 @@
+# Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+.aws/
+credentials
+config
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
