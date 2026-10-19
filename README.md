@@ -8,9 +8,7 @@ This project is inspired by the AWS project tutorial referenced below.
 
 The Power of Math application allows users to calculate the power of a number using the formula:
 
-\[
-\text{Result} = \text{Base}^{\text{Exponent}}
-\]
+**Result = Base ^ Exponent**
 
 For example, if the base is `2` and the exponent is `3`, the result is `8`.
 
@@ -118,9 +116,6 @@ Through this project, I explored:
 - Understanding IAM permissions and AWS service integration.
 - Learning the fundamentals of cloud application deployment.
 
-## 🎥 Reference Tutorial
-
-[Watch the AWS Project Tutorial on YouTube](https://youtu.be/7m_q1ldzw0U?si=PDELxUgGYWRxnS9d)
 
 ## 🔮 Future Enhancements
 
