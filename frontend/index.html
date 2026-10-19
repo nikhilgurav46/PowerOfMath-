@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>⚡ Power Calculator</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,system-ui,Arial,sans-serif}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;color:#f7f7f7;background:radial-gradient(circle at 15% 15%,#253128,#202427 55%,#25292c)}
+.card{width:min(100%,520px);padding:38px 34px;border:1px solid #4b5052;border-radius:24px;background:rgba(54,58,60,.92);box-shadow:0 22px 60px #0004}
+h1{text-align:center;margin:0;font-size:28px}.subtitle{text-align:center;color:#c2c6c8;margin:10px 0 30px;font-size:14px}
+label{display:block;margin:18px 0 8px;color:#8bc34a;font-weight:700;font-size:14px}
+input{width:100%;padding:16px;border:1px solid #4b5052;border-radius:13px;color:white;background:#262a2c;font:inherit}
+button{width:100%;margin-top:24px;padding:17px;border:0;border-radius:13px;background:linear-gradient(100deg,#8bc834,#69a91d);color:white;font-weight:800;cursor:pointer}
+.result{margin-top:26px;padding:18px;min-height:52px;border-radius:13px;background:#74974c24;color:#c2e28e;text-align:center;overflow-wrap:anywhere}
+.note{text-align:center;color:#aeb4b6;font-size:12px}
+</style></head>
+<body><main class="card">
+<h1>⚡ Power Calculator</h1><p class="subtitle">Calculate the power of any number instantly</p>
+<form id="powerForm">
+<label for="base">Base Number</label><input id="base" type="number" step="any" placeholder="Enter base number" required>
+<label for="exponent">Exponent</label><input id="exponent" type="number" step="1" placeholder="Enter exponent" required>
+<button id="calculateButton" type="submit">CALCULATE</button></form>
+<div class="result" id="result" aria-live="polite">Base<sup>Exponent</sup> = Result</div>
+<p class="note">AWS Amplify • API Gateway • Lambda • DynamoDB</p></main>
+<script>
+const API_GATEWAY_URL = "REPLACE_WITH_YOUR_API_GATEWAY_URL";
+const form=document.getElementById("powerForm"), box=document.getElementById("result"), button=document.getElementById("calculateButton");
+form.addEventListener("submit",async e=>{
+ e.preventDefault();const base=Number(document.getElementById("base").value),exponent=Number(document.getElementById("exponent").value);
+ if(!Number.isFinite(base)||!Number.isInteger(exponent)){box.textContent="Enter a valid base and a whole-number exponent.";return}
+ if(API_GATEWAY_URL==="REPLACE_WITH_YOUR_API_GATEWAY_URL"){box.textContent=`Demo preview: ${base} ^ ${exponent} = ${base**exponent}. Add your API Gateway URL to enable the AWS backend.`;return}
+ button.disabled=true;button.textContent="CALCULATING...";box.textContent="Sending request to AWS...";
+ try{const r=await fetch(API_GATEWAY_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({base,exponent})});const d=await r.json();if(!r.ok)throw new Error(d.error||`Request failed (${r.status})`);box.textContent=`${base} ^ ${exponent} = ${d.result}`}
+ catch(err){box.textContent=`Could not calculate via AWS: ${err.message}. Check API URL, CORS, and Lambda logs.`}
+ finally{button.disabled=false;button.textContent="CALCULATE"}
+});
+</script></body></html>
